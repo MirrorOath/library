@@ -25,6 +25,7 @@ public class Books {
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value="changePage")
 	private String changePage(Model model, HttpSession session, Integer page){
+	    System.out.println("changePage");
 		PageBean<BookInfo> bookBean = (PageBean<BookInfo>)session.getAttribute("pageBean");
 		if(bookBean == null)
 			return "redirect:index.jsp";

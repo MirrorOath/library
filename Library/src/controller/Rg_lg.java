@@ -16,7 +16,7 @@ import oracleDao.Order_go;
 import oracleDao.impl.Rg_lgimpl;
 
 @Controller
-@RequestMapping(value="/user/")
+@RequestMapping(value = "/user/")
 public class Rg_lg {
 	@Autowired
 	private oracleDao.Rg_lg userImpl;
@@ -25,59 +25,59 @@ public class Rg_lg {
 	@Autowired
 	private oracleDao.Rg_lg uImpl;
 
-	@RequestMapping(value="register")
-	public String register(Model model, RgUserInfo userInfo){
+	@RequestMapping(value = "register")
+	public String register(Model model, RgUserInfo userInfo) {
 		Rg_lgimpl rglg = new Rg_lgimpl();
 		RgUserInfo selInfo = rglg.findByName(userInfo.getUsername());
-		if(selInfo == null){
+		if (selInfo == null) {
 			rglg.register(userInfo);
 			return "registerSuccess";
-		}
-		else{
-			model.addAttribute("msg", "ÓÃ»§ÃûÒÑ´æÔÚ");
+		} else {
+			model.addAttribute("msg", "ç”¨æˆ·åå·²å­˜åœ¨");
 			return "register";
 		}
 	}
-	@RequestMapping(value="update")
-	public String update(Model model, RgUserInfo userInfo, HttpSession session){
-		Integer userId = ((RgUserInfo)session.getAttribute("userInfo")).getId();
+
+	@RequestMapping(value = "update")
+	public String update(Model model, RgUserInfo userInfo, HttpSession session) {
+		Integer userId = ((RgUserInfo) session.getAttribute("userInfo")).getId();
 		RgUserInfo selInfo = userImpl.findByName(userInfo.getUsername());
-		if(selInfo == null){
+		if (selInfo == null) {
 			userInfo.setId(userId);
 			userImpl.update(userInfo);
 			session.removeAttribute("userInfo");
 			return "redirect:../User/login.jsp";
-		}
-		else{
-			model.addAttribute("msg", "ÓÃ»§ÃûÒÑ´æÔÚ");
+		} else {
+			model.addAttribute("msg", "ç”¨æˆ·åå·²å­˜åœ¨");
 			return "redirect:../User/userarea.jsp";
 		}
 	}
-	@RequestMapping(value="login")
-	public String login(Model model, RgUserInfo userInfo, HttpSession session){
+
+	@RequestMapping(value = "login")
+	public String login(Model model, RgUserInfo userInfo, HttpSession session) {
 		Rg_lgimpl rglg = new Rg_lgimpl();
 		RgUserInfo selInfo = rglg.findByName(userInfo.getUsername());
-		if(selInfo == null){
-			model.addAttribute("msg", "ÓÃ»§Ãû²»´æÔÚ»òÕßÃÜÂë´íÎó");
+		if (selInfo == null) {
+			model.addAttribute("msg", "ç”¨æˆ·åä¸å­˜åœ¨æˆ–è€…å¯†ç é”™è¯¯");
 			return "login";
 		}
-		if(userInfo.getPwd().equals(selInfo.getPwd())){
+		if (userInfo.getPwd().equals(selInfo.getPwd())) {
 			session.setAttribute("userInfo", selInfo);
-			session.setAttribute("unameNext", "ÍË³öµÇÂ¼");
+			session.setAttribute("unameNext", "é€€å‡ºç™»å½•");
 			return session.getAttribute("lastUrl").toString();
 		}
-		model.addAttribute("msg", "ÓÃ»§Ãû²»´æÔÚ»òÕßÃÜÂë´íÎó");
+		model.addAttribute("msg", "ç”¨æˆ·åä¸å­˜åœ¨æˆ–è€…å¯†ç é”™è¯¯");
 		return "login";
 	}
-	
-	@RequestMapping(value="rg_lg_do")
-	public String Rg_lg_do(Model model, HttpSession session, String rorl){
-		// µÇÂ¼×´Ì¬
-		if(session.getAttribute("userInfo") != null){
-			session.setAttribute("unameNext", "ÍË³öµÇÂ¼");
-			// µã»÷ÓÃ»§Ãû
-			if("login".equals(rorl)){
-				Integer userId = ((RgUserInfo)session.getAttribute("userInfo")).getId();
+
+	@RequestMapping(value = "rg_lg_do")
+	public String Rg_lg_do(Model model, HttpSession session, String rorl) {
+		// ç™»å½•çŠ¶æ€
+		if (session.getAttribute("userInfo") != null) {
+			session.setAttribute("unameNext", "é€€å‡ºç™»å½•");
+			// ç‚¹å‡»ç”¨æˆ·å
+			if ("login".equals(rorl)) {
+				Integer userId = ((RgUserInfo) session.getAttribute("userInfo")).getId();
 				RgUserInfo userInfo = uImpl.getUserById(userId);
 				List<OrderForm> forms = oImpl.getFormByUser(userInfo);
 				model.addAttribute("orders", forms);
@@ -85,28 +85,25 @@ public class Rg_lg {
 				model.addAttribute("details", details);
 				return "userarea";
 			}
-			// µã»÷ÍË³öµÇÂ¼
-			else if("register".equals(rorl)){
+			// ç‚¹å‡»é€€å‡ºç™»å½•
+			else if ("register".equals(rorl)) {
 				session.removeAttribute("userInfo");
-				if(session.getAttribute("lastUrl") == null)
+				if (session.getAttribute("lastUrl") == null)
 					session.setAttribute("lastUrl", "redirect:../index.jsp");
 				return "redirect:../User/login.jsp";
-			}
-			else
+			} else
 				return "redirect:../index.jsp";
 		}
-		// ·ÇµÇÂ¼×´Ì¬
-		else{
-			if("register".equals(rorl))
+		// éç™»å½•çŠ¶æ€
+		else {
+			if ("register".equals(rorl))
 				return "redirect:../User/register.jsp";
-			else if("login".equals(rorl)){
+			else if ("login".equals(rorl)) {
 				session.setAttribute("lastUrl", "redirect:../index.jsp");
 				return "redirect:../User/login.jsp";
-			}
-			else
+			} else
 				return "redirect:../index.jsp";
 		}
 	}
-	
-	
+
 }

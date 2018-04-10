@@ -86,6 +86,8 @@ public class LoginInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object arg2) throws Exception {
 
+	    System.out.println("Hello world!!");
+	    
 		HttpSession session= request.getSession(false);//获取一个已经存在的session
 		String str = getStr(request);
 		
