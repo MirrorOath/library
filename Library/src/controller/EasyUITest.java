@@ -28,7 +28,7 @@ public class EasyUITest {
 	public void initBinder(HttpServletRequest request,ServletRequestDataBinder binder) throws Exception {
 		binder.registerCustomEditor(
 				Date.class, 
-				new CustomDateEditor(new SimpleDateFormat("yyyyÄêMMÔÂddÈÕ"),true));
+				new CustomDateEditor(new SimpleDateFormat("yyyyå¹´MMæœˆddæ—¥"),true));
 	}
 	@RequestMapping(value="get_users")
 	public @ResponseBody List<RgUserInfo> get_users() throws Exception{

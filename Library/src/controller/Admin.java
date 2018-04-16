@@ -45,7 +45,7 @@ public class Admin {
 			return "../admin/control";
 		}
 		else{
-			model.addAttribute("msg", "ÊéÒÑ´æÔÚ");
+			model.addAttribute("msg", "ä¹¦å·²å­˜åœ¨");
 			return "../admin/control";
 		}
 	}
